@@ -1,0 +1,16 @@
+---
+- hosts: cluster
+  sudo: yes
+  tasks:
+    - name: install libcurl
+      yum: name=libcurl-devel state=present
+    - name: install openssl
+      yum: name=openssl-devel state=present
+    - name: Clean cache
+      command: /usr/sbin/yum-complete-transaction --cleanup-only
+    - name: install R
+      yum: name=R enablerepo=epel state=present
+    - name: Apply R PATH
+      script: ../files/append_R_path.sh
+    - name: Install R Library
+      script: ../files/install_R_lib.sh
